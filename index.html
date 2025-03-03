@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Paper Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">FreQ</a>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">About Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="left-section">
+                <!-- Upload Section -->
+                <section class="upload-section">
+                    <h2>Upload Question Papers</h2>
+                    <input type="file" id="fileInput" multiple hidden>
+                    
+                   
+
+                    <div class="drop-area" id="drop-area">
+                        <p>Drag & Drop your files or <label for="fileInput" class="browse-link">Browse</label></p>
+                        <input type="file" id="fileInput" multiple hidden>
+                    </div>
+                    <p class="supported-formats">Supported formats: PDF, TXT, DOC, DOCX</p>
+                    <div id="file-list"></div>
+                </section>
+            </div>
+
+            <div class="right-section">
+                <!-- Questions Sections Container -->
+                <div class="questions-container">
+                    <section class="question-section red">
+                        <h2>Most Frequent</h2>
+                        <div id="most-frequent"></div>
+                    </section>
+
+                    <section class="question-section brown">
+                        <h2>Medium Frequent</h2>
+                        <div id="medium-frequent"></div>
+                    </section>
+
+                    <section class="question-section green">
+                        <h2>Least Frequent</h2>
+                        <div id="least-frequent"></div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const fileInput = document.getElementById("fileInput");
+            const chooseFilesBtn = document.getElementById("chooseFilesBtn");
+            const dropArea = document.getElementById("drop-area");
+
+            if (!fileInput || !chooseFilesBtn || !dropArea) {
+                console.error("Required elements not found");
+                return;
+            }
+
+            // Click event to trigger file input
+            chooseFilesBtn.addEventListener("click", () => fileInput.click());
+
+            // Drag & Drop event
+            dropArea.addEventListener("dragover", (event) => {
+                event.preventDefault();
+                dropArea.classList.add("highlight");
+            });
+
+            dropArea.addEventListener("dragleave", () => {
+                dropArea.classList.remove("highlight");
+            });
+
+            dropArea.addEventListener("drop", (event) => {
+                event.preventDefault();
+                dropArea.classList.remove("highlight");
+
+                if (event.dataTransfer.files.length > 0) {
+                    fileInput.files = event.dataTransfer.files;
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
